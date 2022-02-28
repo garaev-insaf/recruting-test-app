@@ -2,3 +2,26 @@ footer.footer_photos-footer
     background: white
     height: 80px
     width: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    .pages-counts
+        width: 360px
+        .pages-list
+            display: flex
+            justify-content: space-between
+            list-style-type: none
+            &__item
+                display: flex
+                align-items: center
+                justify-content: center
+                width: 30px
+                cursor: pointer
+            &__item.disabled
+                cursor: not-allowed
+            &__item:hover
+                background: #e5edfa
+            &__item.disabled:hover
+                background: red
+            &__item.current
+                color: green

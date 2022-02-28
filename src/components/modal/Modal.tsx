@@ -12,8 +12,7 @@ const Modal = () => {
     if (modal) {
         return ReactDOM.createPortal(
             <div
-                className="main-modal"
-                onClick={() => handleModal()}>
+                className="main-modal">
                 <div className="modal-content">
                     <button
                         className="exit-button"

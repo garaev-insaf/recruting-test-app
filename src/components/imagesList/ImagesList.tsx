@@ -1,14 +1,15 @@
 import * as React from "react";
 import { useEffect, useState, useContext } from "react";
 import { connect } from "react-redux";
-import { getPhotosByPage } from "../../Actions/PhotosAction";
+import { deletePhotoAction, getPhotosByPage } from "../../Actions/PhotosAction";
 import { ModalContext } from "../modal/modalContext/ModalContext";
 import PhotosModalContent from "../modal/photosModalContent/PhotosModalContent";
+import { usePages } from "../photosContext/PagesContext";
 import { CalcPhotosAvailableCount } from "../scripts/CalcPhotosAvailableCount";
 import './styles/ImagesList.sass'
 interface IMainProps {
     photosList: photosStateType[] | [],
-    getPhotosByPage(limit: number): Promise<void>,
+    getPhotosByPage(limit: number, currentPage: number): Promise<void>,
 }
 
 type photosStateType = {
@@ -19,13 +20,13 @@ type photosStateType = {
     thumbnailUrl: string,
 }
 
-const ImagesList: React.FC<IMainProps> = ({ photosList, getPhotosByPage }) => {
+const ImagesList: React.FC<IMainProps> = ({ photosList, getPhotosByPage}) => {
     const { handleModal } = useContext(ModalContext)
-    const [currentPageState, setCurrentPageState] = useState(1);
+    const [currentPageState, setCurrentPageState] = usePages();
     const [photosListState, setPhotosListState] = useState<photosStateType[] | []>([]);
     useEffect(() => {
-        getPhotosByPage(CalcPhotosAvailableCount());
-    }, [])
+        getPhotosByPage(CalcPhotosAvailableCount(), currentPageState);
+    }, [currentPageState])
 
     useEffect(() => {
         // заполнение локального стейта, при получение данных с сервера
@@ -33,13 +34,16 @@ const ImagesList: React.FC<IMainProps> = ({ photosList, getPhotosByPage }) => {
             setPhotosListState(photosList);
         }
     }, [photosList])
-    console.log(photosListState);
+
     return (
         <div className="image-list-container" id="image-list-container">
             <div className="photos-wrapper">{
                 photosListState.length != 0 ?
                     photosListState.map((elem: photosStateType) =>
-                        <div className="photo-wrapper" key={elem.id} onClick={() => handleModal(<PhotosModalContent imageUrl={elem.url} />)} ><img src={elem.thumbnailUrl} alt="photo" /></div>
+                        <div className="single-photo-wrapper" key={elem.id}  >
+                            <img src={elem.thumbnailUrl} alt="photo" onClick={() => handleModal(<PhotosModalContent imageUrl={elem.url} imageId={elem.id} />)} />
+                           
+                        </div>
                     )
                     : null
             }</div>

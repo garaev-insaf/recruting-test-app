@@ -8,11 +8,24 @@
     align-items: center
     justify-content: center
     .photos-wrapper
+        position: relative
+        align-items: center
+        justify-content: center
         margin: auto auto
         height: auto
         display: flex
         flex-wrap: wrap
-        img
-            display: block
-            width: 150px
-            height: 150px
+        .single-photo-wrapper
+            position: relative
+            button.button_delete-image
+                display: none
+                position: absolute
+                right: 0
+                top: 0
+            img
+                display: block
+                width: 150px
+                height: 150px
+        .single-photo-wrapper:hover
+            button.button_delete-image
+                display: block
