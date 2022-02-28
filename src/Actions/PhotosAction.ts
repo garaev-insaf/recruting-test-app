@@ -18,7 +18,6 @@ export const deletePhotoAction = (id: number) => {
             });
     };
 };
-
 export const getPhotosByPage = (limit: number, currentPage: number) => {
     return async (dispatch) => {
         dispatch({
@@ -33,6 +32,26 @@ export const getPhotosByPage = (limit: number, currentPage: number) => {
                 });
                 dispatch({
                     type: "HIDE_LOADER",
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+};
+
+export const getFilteredPhotosByPage = (limit: number, currentPage: number, albumId: number) => {
+    console.log(limit);
+    return async (dispatch) => {
+        await axios
+            .get(`https://jsonplaceholder.typicode.com/photos?_page=${currentPage}&_limit=${limit}&albumId=${albumId}`)
+            .then((photosList) => {
+                dispatch({
+                    type: "GET_PHOTOS",
+                    photosList,
+                });
+                dispatch({
+                    type: "FILTER_STATUS_ENABLE",
                 });
             })
             .catch((error) => {

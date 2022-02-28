@@ -1,6 +1,7 @@
 const initialState = {
     loading: false
 }
+
 const LoadingReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case "SHOW_LOADER":
@@ -10,6 +11,6 @@ const LoadingReducer = (state = initialState, action) => {
 		default:
 			return state;
 	}
-};
+}; 
 
 export { LoadingReducer };

@@ -8,4 +8,19 @@ const PhotosListReducer = (photosList = [], action) => {
     }
 };
 
-export { PhotosListReducer }
+const initialState = {
+    filter: false
+}
+const FilterStatusReducer = (state = initialState, action) => {
+	switch (action.type) {
+		case "FILTER_STATUS_ENABLE":
+			return {...state, filter: true};
+		case "FILTER_STATUS_DISABLE":
+			return {...state, filter: false};
+		default:
+			return state;
+	}
+};
+
+
+export { PhotosListReducer, FilterStatusReducer }
